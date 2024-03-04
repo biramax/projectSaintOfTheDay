@@ -18,8 +18,8 @@ class SaintViewController: UIViewController {
     private var saintIcon: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .lightGray
-        //view.contentMode = .scaleAspectFill
-        //view.clipsToBounds = true // Обрезание по границам
+        view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true // Обрезание по границам
         return view
     }()
     

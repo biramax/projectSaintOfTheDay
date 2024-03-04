@@ -16,7 +16,6 @@ final class SaintCell: UITableViewCell {
     private var saintIcon: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .lightGray
-        //view.layer.cornerRadius = 20 // Половина длины стороны
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true // Обрезание по границам
         return view
@@ -77,7 +76,7 @@ final class SaintCell: UITableViewCell {
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
                 
                 // Если иконы не загружена, размещаем указание "нет иконы"
-                if let error = error {
+                if error != nil {
                     DispatchQueue.main.async {
                         self.saintIcon.image = nil
                         self.saintIconLabel.isHidden = false
