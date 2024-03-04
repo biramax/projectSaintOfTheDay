@@ -18,8 +18,8 @@ class SaintViewController: UIViewController {
     private var saintIcon: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .lightGray
-        view.contentMode = .scaleAspectFill
-        view.clipsToBounds = true // Обрезание по границам
+        view.contentMode = .scaleAspectFit
+        //view.clipsToBounds = true // Обрезание по границам
         return view
     }()
     
@@ -27,7 +27,8 @@ class SaintViewController: UIViewController {
     private var saintName: UILabel = {
         let label = UILabel()
         label.text = "Name"
-        label.numberOfLines = 0
+        label.backgroundColor = .lightGray
+        //label.numberOfLines = 0
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 25)
         return label
@@ -106,9 +107,13 @@ class SaintViewController: UIViewController {
                             
                             // Иначе отображаем икону
                             if let data = data {
-                                DispatchQueue.main.async {
-                                    self.saintIcon.image = UIImage(data: data)
-                                    self.saintIcon.isHidden = false
+                                
+                                if let image = UIImage(data: data) {
+                                    
+                                    DispatchQueue.main.async {
+                                        self.saintIcon.image = UIImage(data: data)
+                                        self.saintIcon.isHidden = false
+                                    }
                                 }
                             }
                         }

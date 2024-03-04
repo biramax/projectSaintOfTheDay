@@ -16,8 +16,8 @@ final class SaintCell: UITableViewCell {
     private var saintIcon: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .lightGray
-        view.contentMode = .scaleAspectFill
-        view.clipsToBounds = true // Обрезание по границам
+        view.contentMode = .scaleAspectFit // для эффекта cover используется .scaleAspectFill
+        //view.clipsToBounds = true // Обрезание по границам
         return view
     }()
     
