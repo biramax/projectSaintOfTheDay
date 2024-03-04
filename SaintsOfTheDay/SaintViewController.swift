@@ -165,7 +165,7 @@ extension SaintViewController {
             saintIcon.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 20),
             saintIcon.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             saintIcon.widthAnchor.constraint(equalToConstant: 200),
-            saintIcon.heightAnchor.constraint(equalToConstant: 200),
+            saintIcon.heightAnchor.constraint(equalTo: saintIcon.widthAnchor),
             
             saintName.topAnchor.constraint(equalTo: saintIcon.bottomAnchor, constant: 20),
             saintName.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
