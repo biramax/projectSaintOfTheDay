@@ -8,6 +8,8 @@
 import Foundation
 
 extension String {
+    
+    // Удаление HTML тегов из текста
     func removeHTMLTags() -> String {
         do {
             let regex = try NSRegularExpression(pattern: "<[^>]+>", options: [])

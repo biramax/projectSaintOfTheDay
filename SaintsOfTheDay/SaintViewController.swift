@@ -9,16 +9,15 @@ import UIKit
 
 class SaintViewController: UIViewController {
     
-    // Создаём объект NetworkService
     private let networkService = NetworkService()
-    
+    private let coreDataService = CoreDataService()
     private var saintId: Int
 
     // Икона
     private var saintIcon: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .lightGray
-        view.contentMode = .scaleAspectFit
+        //view.contentMode = .scaleAspectFill
         //view.clipsToBounds = true // Обрезание по границам
         return view
     }()
@@ -27,8 +26,7 @@ class SaintViewController: UIViewController {
     private var saintName: UILabel = {
         let label = UILabel()
         label.text = "Name"
-        label.backgroundColor = .lightGray
-        //label.numberOfLines = 0
+        label.numberOfLines = 0
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 25)
         return label
@@ -47,7 +45,7 @@ class SaintViewController: UIViewController {
     // Добавляем свойства contentSize, scrollView и contentView для обеспечения прокрутки экрана
     
     private var contentSize: CGSize {
-        CGSize(width: view.frame.width, height: view.frame.height * 2)
+        CGSize(width: view.frame.width, height: view.frame.height)
     }
     
     private lazy var scrollView: UIScrollView = {
@@ -82,84 +80,175 @@ class SaintViewController: UIViewController {
         view.backgroundColor = .white
         
         title = "Святые сегодняшнего дня"
+
+        // Если в CoreData имеются данные о святых по состоянию на сегодняшнее число, то берём данные из CoreData
+        let currentDate = Date()
         
-        networkService.getSaintById(saintId: saintId) { saint in
+        if let lastUpdateDate = coreDataService.getSaintsDate() {
             
-            if let saint = saint {
+            // Сравниваем дату последнего обновления с сегодняшней датой
+            if Calendar.current.isDate(currentDate, inSameDayAs: lastUpdateDate) {
                 
-                print(saint)
-                
-                DispatchQueue.main.async {
+                // Данные для сегодняшней даты уже доступны в CoreData, считываем данные о святом
+                if let saint = coreDataService.getSaint(self.saintId) {
                     
-                    // Используем highestPriorityIconUrlM для получения URL иконы с наивысшим приоритетом
-                    if let highestPriorityIconUrl = saint.highestPriorityIconUrlM(), let url = URL(string: highestPriorityIconUrl) {
+                    // Проверяем, что у святого есть икона
+                    if let iconUrlString = saint.icons.first?.urlM, let url = URL(string: iconUrlString) {
                         
                         let task = URLSession.shared.dataTask(with: url) { data, response, error in
                             
-                            // Если иконы не загружена, ничего не размещаем
+                            // Если икона не загружена, ничего не размещаем
                             if error != nil {
                                 DispatchQueue.main.async {
                                     self.saintIcon.image = nil
                                     self.saintIcon.isHidden = true
+                                    self.setupWithoutIconConstraints()
                                 }
                                 return
                             }
                             
                             // Иначе отображаем икону
                             if let data = data {
-                                
-                                if let image = UIImage(data: data) {
+                                DispatchQueue.main.async {
+                                    let icon = UIImage(data: data)
+                                    self.saintIcon.image = icon
+                                    self.saintIcon.isHidden = false
                                     
-                                    DispatchQueue.main.async {
-                                        self.saintIcon.image = UIImage(data: data)
-                                        self.saintIcon.isHidden = false
-                                    }
+                                    // Передаём ширину и высоту иконы для задания в констрейнтах
+                                    self.setupIconConstraints(width: icon?.size.width ?? 0, height: icon?.size.height ?? 0)
                                 }
+                            } else {
+                                self.setupWithoutIconConstraints()
                             }
                         }
 
                         task.resume()
-                        
                     } else {
                         // Если URL изображения недоступен, ничего не размещаем
                         DispatchQueue.main.async {
                             self.saintIcon.image = nil
                             self.saintIcon.isHidden = true
+                            self.setupWithoutIconConstraints()
                         }
                     }
                     
                     self.saintName.text = saint.name
                     self.saintDescription.text = saint.description.removeHTMLTags()
                     
-                    // Здесь также можете установить изображение для saintIcon
+                } else {
+                    print("Произошла ошибка при получении данных")
                 }
                 
-            } else {
-                print("Произошла ошибка при получении данных")
+                StaticVars.dataSource = "CoreData"
+                print("Данные из CoreData")
+            }
+        }
+        
+        if StaticVars.dataSource == "API" {
+            
+            print("Данные из API")
+            
+            networkService.getSaintById(saintId: saintId) { [weak self] saint in
+                
+                guard let self else { return }
+                
+                if let saint = saint {
+                    
+                    print(saint)
+                    
+                    DispatchQueue.main.async {
+                        
+                        // Используем highestPriorityIconUrlM для получения URL иконы с наивысшим приоритетом
+                        if let highestPriorityIconUrl = saint.highestPriorityIconUrlM(), let url = URL(string: highestPriorityIconUrl) {
+                            
+                            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                                
+                                // Если икона не загружена, ничего не размещаем
+                                if error != nil {
+                                    DispatchQueue.main.async {
+                                        self.saintIcon.image = nil
+                                        self.saintIcon.isHidden = true
+                                        self.setupWithoutIconConstraints()
+                                    }
+                                    return
+                                }
+                                
+                                // Иначе отображаем икону
+                                if let data = data {
+                                    DispatchQueue.main.async {
+                                        let icon = UIImage(data: data)
+                                        self.saintIcon.image = icon
+                                        self.saintIcon.isHidden = false
+                                        
+                                        // Передаём ширину и высоту иконы для задания в констрейнтах
+                                        self.setupIconConstraints(width: icon?.size.width ?? 0, height: icon?.size.height ?? 0)
+                                    }
+                                } else {
+                                    self.setupWithoutIconConstraints()
+                                }
+                            }
+                            
+                            task.resume()
+                            
+                        } else {
+                            // Если URL изображения недоступен, ничего не размещаем
+                            DispatchQueue.main.async {
+                                self.saintIcon.image = nil
+                                self.saintIcon.isHidden = true
+                                self.setupWithoutIconConstraints()
+                            }
+                        }
+                        
+                        self.saintName.text = saint.name
+                        self.saintDescription.text = saint.description.removeHTMLTags()
+                    }
+                    
+                } else {
+                    print("Произошла ошибка при получении данных")
+                }
             }
         }
         
         setupUI()
         addConstraints()
-    }  
+    }
 }
 
 
 
-extension SaintViewController {
+private extension SaintViewController {
     
-    private func setupUI() {
+    func setupUI() {
         
         // Для обеспечения прокрутки экрана
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        
+    
         contentView.addSubview(saintIcon)
         contentView.addSubview(saintName)
         contentView.addSubview(saintDescription)
     }
     
-    private func addConstraints() {
+    // Выставляем констрейнты, если икона загружена
+    func setupIconConstraints(width: CGFloat, height: CGFloat) {
+        NSLayoutConstraint.activate([
+            saintIcon.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 20),
+            saintIcon.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            saintIcon.widthAnchor.constraint(equalToConstant: width),
+            saintIcon.heightAnchor.constraint(equalToConstant: height),
+            
+            saintName.topAnchor.constraint(equalTo: saintIcon.bottomAnchor, constant: 20),
+        ])
+    }
+    
+    // Выставляем констрейнты, если икона не загружена
+    func setupWithoutIconConstraints() {
+        NSLayoutConstraint.activate([
+            saintName.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 20),
+        ])
+    }
+    
+    func addConstraints() {
         
         saintIcon.translatesAutoresizingMaskIntoConstraints = false
         saintName.translatesAutoresizingMaskIntoConstraints = false
@@ -167,14 +256,8 @@ extension SaintViewController {
         
         NSLayoutConstraint.activate([
             
-            saintIcon.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 20),
-            saintIcon.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            saintIcon.widthAnchor.constraint(equalToConstant: 200),
-            saintIcon.heightAnchor.constraint(equalTo: saintIcon.widthAnchor),
-            
-            saintName.topAnchor.constraint(equalTo: saintIcon.bottomAnchor, constant: 20),
-            saintName.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             saintName.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
+            saintName.heightAnchor.constraint(equalToConstant: 30),
             saintName.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15),
             
             saintDescription.topAnchor.constraint(equalTo: saintName.bottomAnchor, constant: 20),

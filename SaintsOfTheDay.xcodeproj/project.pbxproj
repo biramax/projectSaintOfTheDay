@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		418601082B9765BB00B3AE45 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418601072B9765BB00B3AE45 /* CoreDataService.swift */; };
+		4186010B2B9765F700B3AE45 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 418601092B9765F700B3AE45 /* CoreDataModel.xcdatamodeld */; };
+		418601202B97A01200B3AE45 /* Saints+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4186011C2B97A01200B3AE45 /* Saints+CoreDataClass.swift */; };
+		418601212B97A01200B3AE45 /* Saints+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4186011D2B97A01200B3AE45 /* Saints+CoreDataProperties.swift */; };
+		418601222B97A01200B3AE45 /* SaintsDate+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4186011E2B97A01200B3AE45 /* SaintsDate+CoreDataClass.swift */; };
+		418601232B97A01200B3AE45 /* SaintsDate+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4186011F2B97A01200B3AE45 /* SaintsDate+CoreDataProperties.swift */; };
+		418601252B98766000B3AE45 /* StaticVars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418601242B98766000B3AE45 /* StaticVars.swift */; };
 		41D0C24A2B8F713700EBF28E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D0C2492B8F713700EBF28E /* AppDelegate.swift */; };
 		41D0C24C2B8F713700EBF28E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D0C24B2B8F713700EBF28E /* SceneDelegate.swift */; };
 		41D0C24E2B8F713700EBF28E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D0C24D2B8F713700EBF28E /* ViewController.swift */; };
@@ -22,6 +29,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		418601072B9765BB00B3AE45 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
+		4186010A2B9765F700B3AE45 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
+		4186011C2B97A01200B3AE45 /* Saints+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Saints+CoreDataClass.swift"; sourceTree = "<group>"; };
+		4186011D2B97A01200B3AE45 /* Saints+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Saints+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4186011E2B97A01200B3AE45 /* SaintsDate+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SaintsDate+CoreDataClass.swift"; sourceTree = "<group>"; };
+		4186011F2B97A01200B3AE45 /* SaintsDate+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SaintsDate+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		418601242B98766000B3AE45 /* StaticVars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticVars.swift; sourceTree = "<group>"; };
 		41D0C2462B8F713700EBF28E /* SaintsOfTheDay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SaintsOfTheDay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		41D0C2492B8F713700EBF28E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		41D0C24B2B8F713700EBF28E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +63,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		418601062B97653400B3AE45 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				418601072B9765BB00B3AE45 /* CoreDataService.swift */,
+				418601092B9765F700B3AE45 /* CoreDataModel.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		41D0C23D2B8F713700EBF28E = {
 			isa = PBXGroup;
 			children = (
@@ -68,6 +91,11 @@
 		41D0C2482B8F713700EBF28E /* SaintsOfTheDay */ = {
 			isa = PBXGroup;
 			children = (
+				4186011C2B97A01200B3AE45 /* Saints+CoreDataClass.swift */,
+				4186011D2B97A01200B3AE45 /* Saints+CoreDataProperties.swift */,
+				4186011E2B97A01200B3AE45 /* SaintsDate+CoreDataClass.swift */,
+				4186011F2B97A01200B3AE45 /* SaintsDate+CoreDataProperties.swift */,
+				418601062B97653400B3AE45 /* CoreData */,
 				41D0C2492B8F713700EBF28E /* AppDelegate.swift */,
 				41D0C24B2B8F713700EBF28E /* SceneDelegate.swift */,
 				41D0C24D2B8F713700EBF28E /* ViewController.swift */,
@@ -76,6 +104,7 @@
 				41D0C2672B90EAA000EBF28E /* SaintModel.swift */,
 				41D0C25D2B8F72FF00EBF28E /* NetworkService.swift */,
 				41D0C25F2B8F7C6E00EBF28E /* UserDefaultsService.swift */,
+				418601242B98766000B3AE45 /* StaticVars.swift */,
 				41D0C2612B8F849600EBF28E /* DateHelper.swift */,
 				41D0C2692B9385DE00EBF28E /* StringHelper.swift */,
 				41D0C2522B8F713800EBF28E /* Assets.xcassets */,
@@ -156,15 +185,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				41D0C2682B90EAA000EBF28E /* SaintModel.swift in Sources */,
+				418601232B97A01200B3AE45 /* SaintsDate+CoreDataProperties.swift in Sources */,
 				41D0C2642B90E65E00EBF28E /* SaintCell.swift in Sources */,
+				4186010B2B9765F700B3AE45 /* CoreDataModel.xcdatamodeld in Sources */,
 				41D0C24E2B8F713700EBF28E /* ViewController.swift in Sources */,
+				418601202B97A01200B3AE45 /* Saints+CoreDataClass.swift in Sources */,
 				41D0C2662B90E92200EBF28E /* SaintViewController.swift in Sources */,
 				41D0C2602B8F7C6E00EBF28E /* UserDefaultsService.swift in Sources */,
 				41D0C24A2B8F713700EBF28E /* AppDelegate.swift in Sources */,
+				418601252B98766000B3AE45 /* StaticVars.swift in Sources */,
 				41D0C2622B8F849600EBF28E /* DateHelper.swift in Sources */,
 				41D0C25E2B8F72FF00EBF28E /* NetworkService.swift in Sources */,
+				418601082B9765BB00B3AE45 /* CoreDataService.swift in Sources */,
+				418601212B97A01200B3AE45 /* Saints+CoreDataProperties.swift in Sources */,
 				41D0C26A2B9385DE00EBF28E /* StringHelper.swift in Sources */,
 				41D0C24C2B8F713700EBF28E /* SceneDelegate.swift in Sources */,
+				418601222B97A01200B3AE45 /* SaintsDate+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,6 +370,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "dwarf-with-dsym";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SaintsOfTheDay/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -375,6 +412,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		418601092B9765F700B3AE45 /* CoreDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4186010A2B9765F700B3AE45 /* CoreDataModel.xcdatamodel */,
+			);
+			currentVersion = 4186010A2B9765F700B3AE45 /* CoreDataModel.xcdatamodel */;
+			path = CoreDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 41D0C23E2B8F713700EBF28E /* Project object */;
 }

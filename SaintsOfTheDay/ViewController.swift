@@ -10,7 +10,7 @@ import UIKit
 class ViewController: UITableViewController {
 
     private let networkService = NetworkService()
-    
+    private let coreDataService = CoreDataService()
     private var saints: [Saint] = []
     
     override func viewDidLoad() {
@@ -25,20 +25,51 @@ class ViewController: UITableViewController {
         // Для возможности переиспользовать ячейки
         tableView.register(SaintCell.self, forCellReuseIdentifier: "cell")
         
-        // Получаем токен
-        networkService.getToken()
+        // Возможность обновить данные, потянув за экран
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(update), for: .valueChanged)
         
-        // Получаем массив id святых сегодняшнего дня
-        networkService.getSaintsIds(date: DateHelper.getCurrentDate()) { saintsIds in
-            if let saintsIds = saintsIds {
+        getSaints()
+    }
+    
+    func getSaints() {
+        
+        // Если в CoreData имеются данные о святых по состоянию на сегодняшнее число, то берём данные из CoreData
+        let currentDate = Date()
+        
+        if let lastUpdateDate = coreDataService.getSaintsDate() {
+            
+            // Сравниваем дату последнего обновления с сегодняшней датой
+            if Calendar.current.isDate(currentDate, inSameDayAs: lastUpdateDate) {
                 
-                print(saintsIds)
+                // Данные для сегодняшней даты уже доступны в CoreData, считываем и загружаем в список
+                saints = coreDataService.getSaints()
+                self.tableView.reloadData()
                 
-                // По id запрашиваем данные - имя и икону святого
-                self.getSaintsByIds(saintsIds: saintsIds)
-                
-            } else {
-                print("Произошла ошибка при получении данных")
+                StaticVars.dataSource = "CoreData"
+                print("Данные из CoreData")
+            }
+        }
+        
+        if StaticVars.dataSource == "API" {
+            
+            print("Данные из API")
+            
+            // Получаем токен
+            networkService.getToken()
+            
+            // Получаем массив id святых сегодняшнего дня
+            networkService.getSaintsIds(date: DateHelper.getCurrentDate()) { saintsIds in
+                if let saintsIds = saintsIds {
+                    
+                    print(saintsIds)
+                    
+                    // По id запрашиваем данные - имя и икону святого
+                    self.getSaintsByIds(saintsIds: saintsIds)
+                    
+                } else {
+                    print("Произошла ошибка при получении данных")
+                }
             }
         }
     }
@@ -52,6 +83,9 @@ class ViewController: UITableViewController {
                 print(saints)
                 
                 self.saints = saints
+                
+                // Сохраняем данные о святых в CoreData
+                self.coreDataService.saveSaints(saints: saints)
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -82,7 +116,32 @@ class ViewController: UITableViewController {
             self?.navigationController?.pushViewController(SaintViewController(saintId: saintId ?? 0), animated: true)
         }
         return cell
+    }
+    
+    // Возможность обновить данные, потянув за экран
+    @objc func update() {
         
+        // Получаем токен
+        networkService.getToken()
+        
+        // Получаем массив id святых сегодняшнего дня
+        networkService.getSaintsIds(date: DateHelper.getCurrentDate()) { saintsIds in
+            if let saintsIds = saintsIds {
+                
+                print(saintsIds)
+                
+                // По id запрашиваем данные - имя и икону святого
+                self.getSaintsByIds(saintsIds: saintsIds)
+                
+            } else {
+                print("Произошла ошибка при получении данных")
+            }
+            
+            // Переход на основной поток для остановки процесса апдейта (иконка лоадера перестанет крутиться)
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
     }
 }
 

@@ -95,4 +95,9 @@ struct Saint: Decodable {
         let highestPriorityIcon = icons.max(by: { $0.priority < $1.priority })
         return highestPriorityIcon?.urlM
     }
+    
+    func highestPriorityIconUrlL() -> String? {
+        let highestPriorityIcon = icons.max(by: { $0.priority < $1.priority })
+        return highestPriorityIcon?.urlL
+    }
 }
