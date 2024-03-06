@@ -102,7 +102,7 @@ class ViewController: UITableViewController {
         saints.count
     }
     
-    // Саму ячеку определяем в отдельном классе FriendsCell в отдельном файле
+    // Саму ячеку определяем в отдельном классе SaintCell
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Проверяем, а точно ли ячейка, полученная через dequeueReusableCell, имеет нужный нам тип - SaintCell.
