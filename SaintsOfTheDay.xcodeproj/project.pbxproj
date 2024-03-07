@@ -28,6 +28,7 @@
 		418601072B9765BB00B3AE45 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
 		4186010A2B9765F700B3AE45 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		418601242B98766000B3AE45 /* StaticVars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticVars.swift; sourceTree = "<group>"; };
+		418601262B9A092D00B3AE45 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		41D0C2462B8F713700EBF28E /* SaintsOfTheDay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SaintsOfTheDay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		41D0C2492B8F713700EBF28E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		41D0C24B2B8F713700EBF28E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -98,6 +99,7 @@
 				41D0C2522B8F713800EBF28E /* Assets.xcassets */,
 				41D0C2542B8F713800EBF28E /* LaunchScreen.storyboard */,
 				41D0C2572B8F713800EBF28E /* Info.plist */,
+				418601262B9A092D00B3AE45 /* README.md */,
 			);
 			path = SaintsOfTheDay;
 			sourceTree = "<group>";
